@@ -3,18 +3,16 @@ import pandas as pd
 from datetime import datetime
 import time
 
-# 1. 페이지 설정
+# 1. 페이지 설정 및 초기화
 st.set_page_config(page_title="인천광역시교육청 학습종합클리닉센터", layout="wide")
 
-if 'results' not in st.session_state: st.session_state.results = []
-if 'current_q' not in st.session_state: st.session_state.current_q = 0
-if 'score' not in st.session_state: st.session_state.score = 0
-if 'step' not in st.session_state: st.session_state.step = "setup"
-if 'start_time' not in st.session_state: st.session_state.start_time = None
+for key in ['results', 'current_q', 'score', 'step', 'start_time']:
+    if key not in st.session_state: 
+        st.session_state[key] = [] if key == 'results' else (0 if key in ['current_q', 'score'] else ("setup" if key == 'step' else None))
 
-# 2. 제목 섹션 [cite: 754-762, 992-1000]
+# 2. 제목 섹션 (공식 명칭 반영) [cite: 2-7, 754-762]
 st.markdown("""
-    <div style="text-align: center; background-color: #f0f4f8; padding: 20px; border-radius: 15px;">
+    <div style="text-align: center; background-color: #f0f4f8; padding: 20px; border-radius: 15px; border: 1px solid #d1d9e6;">
         <h4 style="margin-bottom: 5px;">모든 학생의 학습성공을 지원하는</h4>
         <h1 style="color: #0D47A1; margin-top: 0px;">찾아가는 학습지원의 사전·사후 검사 도구</h1>
         <h3 style="color: #333;">인천광역시교육청 학습종합클리닉센터</h3>
@@ -22,67 +20,66 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# 3. 사이드바 설정 (초1~고3 확장)
+# 3. 사이드바 설정 (초1~고3 필터링) [cite: 767, 1005]
 with st.sidebar:
     st.header("📋 검사 설정")
     name = st.text_input("학생명 (가명)")
     
-    # 학년 선택 범위 확장
-    grade_options = [f"초등 {i}학년" for i in range(1, 7)] + [f"중등 {i}학년" for i in range(1, 4)] + [f"고등 {i}학년" for i in range(1, 4)]
-    grade = st.selectbox("학생 학년", grade_options)
-    
+    # 학년 선택 (중1~고3은 중등 문항으로 자동 전환)
+    grade_list = [f"초등 {i}학년" for i in range(1, 7)] + [f"중등 {i}학년" for i in range(1, 4)] + [f"고등 {i}학년" for i in range(1, 4)]
+    grade = st.selectbox("학생 학년", grade_list)
     is_secondary = "중등" in grade or "고등" in grade
     
     period = st.radio("검사 시기", ["사전", "사후"])
     st.divider()
+    
     category = st.selectbox("대영역", ["기초 국어 (읽기·쓰기 유창성)", "기초 수학 (연산 유창성)"])
     
+    # 영역별 세부 항목 (중등 여부에 따라 리스트 변경) [cite: 767, 1005]
     if "국어" in category:
-        # 중등 이상일 경우 '읽기 이해' 항목 추가 
-        kor_items = ["① 한글 해득 수준", "② 무의미 단어 읽기 유창성", "③ 읽기 유창성 (설명문)"]
-        if is_secondary:
-            kor_items.append("④ 읽기 이해 (단어 선택)")
-        sub_category = st.selectbox("세부 항목", kor_items)
-        limit_sec = 120 if "이해" in sub_category else (40 if "무의미" in sub_category else 60)
+        sub_list = ["① 한글 해득 수준", "② 무의미 단어 읽기 유창성", "③ 읽기 유창성 (설명문)"]
+        if is_secondary: sub_list.append("④ 읽기 이해 (단어 선택)")
+        sub_category = st.selectbox("세부 항목", sub_list)
+        limit_sec = 40 if "무의미" in sub_category else (120 if "이해" in sub_category else 60)
     else:
-        sub_category = st.selectbox("세부 항목", ["① 9 이하 덧셈", "② 9 이하 뺄셈", "③ 받아올림 덧셈", "④ 받아내림 뺄셈", "⑦ 곱셈구구"])
+        sub_list = ["① 9 이하 덧셈", "② 9 이하 뺄셈", "③ 받아올림 덧셈", "④ 받아내림 뺄셈", "⑦ 곱셈구구(2~5단)", "⑧ 곱셈구구(6~9단)"]
+        sub_category = st.selectbox("세부 항목", sub_list)
         limit_sec = 60
 
-    if st.button("🔄 전체 초기화"):
+    if st.button("🔄 검사 초기화"):
         st.session_state.step = "setup"; st.session_state.current_q = 0; st.session_state.score = 0
         st.session_state.results = []; st.session_state.start_time = None; st.rerun()
 
-# 4. 문항 데이터 (중등 문항 추가) [cite: 1154, 1266, 1295]
-math_addition_9 = ["2+1", "1+4", "1+1", "3+2", "3+1", "5+0", "1+3", "4+1", "0+3", "6+1"] 
-
-# 중등 전용: 읽기 유창성 지문 [cite: 1154-1156]
-secondary_passage = ["반려동물", "관련", "직업", "세계(제목)", "사람과", "더불어", "살아가기", "위한", "목적으로", "기르는", "동물을", "반려동물이라고", "합니다."]
-
-# 중등 전용: 읽기 이해 (단어 선택) [cite: 1267-1269]
-secondary_comprehension = [
-    {"text": "사람과 인공지능의 대결은 사람들의 많은 관심을", "options": ["받아왔습니다", "선물", "상쾌한"], "answer": "받아왔습니다"},
-    {"text": "과연 인공지능이 사람을 이길 수 있을까요?", "options": ["개인적인", "대표적인", "긍정적인"], "answer": "대표적인"}
+# 4. 문항 데이터베이스 (초등/중등 완전 분리) [cite: 837, 863, 1154, 1268]
+# [국어 데이터]
+kor_nonsense_elem = ["포모", "나버", "계난", "책성", "연팔", "펭권", "코끼러", "피마노", "교과사", "강어지", "다람쥐", "놀미터", "동화챈", "일기창", "경철서", "달팽미", "발차국", "준비물", "운동정", "우리너라", "해바리기", "할아비지", "따라좁기", "동그라무", "바디표범", "딱따구리", "체육대화", "초등학고", "확실히게", "숨바꼬질", "미끄럼톨", "국어서전", "징감다리", "특별화동", "동시남분", "실험관칠", "고속타미달", "이산화탐소", "현장체험학습", "한국전동문회"] # 40문항 [cite: 848]
+kor_nonsense_sec = kor_nonsense_all = kor_nonsense_elem + ["수학익험책", "반달거슴곰", "흰수염고래", "대왕오장어", "현장채험학즙", "한국전통문회", "남방큰돌구래", "티러노사우르소"] # 48문항 [cite: 863]
+kor_passage_elem = ["땀이 나는 이유(제목)", "여러분,", "땀을", "흘려", "본", "경험이", "있지요?", "우리는", "여러", "가지", "상황에서", "땀을", "흘립니다."] # [cite: 942-944]
+kor_passage_sec = ["반려동물 관련 직업 세계(제목)", "사람과", "더불어", "살아가기", "위한", "목적으로", "기르는", "동물을", "반려동물이라고", "합니다."] # [cite: 1154-1156]
+kor_comprehension = [ # [cite: 1268-1269]
+    {"text": "사람과 인공지능의 대결은 사람들의 많은 관심을", "opts": ["선물", "상쾌한", "받아왔습니다"], "ans": "받아왔습니다"},
+    {"text": "과연 인공지능이 사람을 이길 수 있을까요?", "opts": ["개인적인", "대표적인", "긍정적인"], "ans": "대표적인"}
 ]
 
-if "이해" in sub_category:
-    questions = secondary_comprehension
-elif "설명문" in sub_category and is_secondary:
-    questions = secondary_passage
-elif "무의미" in sub_category:
-    # 3학년 이상은 48문항 전제 [cite: 856, 1071]
-    questions = ["포모", "나버", "계난", "책성", "연팔", "펭권", "코끼러", "피마노", "교과사", "강어지"] * 5 
-else:
-    questions = math_addition_9
+# [수학 데이터] [cite: 83-123]
+math_add_9 = ["2+1", "1+4", "1+1", "3+2", "3+1", "5+0", "1+3", "4+1", "0+3", "6+1", "1+5", "6+2", "8+1", "3+3", "4+4", "2+4", "4+3", "4+5", "3+5", "2+7", "2+6", "5+4", "1+6", "3+4", "7+1", "6+3", "5+3", "5+2", "4+2", "7+2"]
 
-# 5. 검사 로직
+# 문항 할당 로직 수정 (오류 해결 핵심)
+if "국어" in category:
+    if "무의미" in sub_category: questions = kor_nonsense_sec if is_secondary else kor_nonsense_elem
+    elif "설명문" in sub_category: questions = kor_passage_sec if is_secondary else kor_passage_elem
+    elif "이해" in sub_category: questions = kor_comprehension
+    else: questions = ["준비 중"]
+else: # 수학
+    if "덧셈" in sub_category: questions = math_add_9
+    else: questions = ["준비 중"]
+
+# 5. 검사 실행 화면
 if not name:
-    st.warning("👈 왼쪽에서 학생 정보를 입력하세요.")
+    st.warning("👈 왼쪽 사이드바에 학생 정보를 입력해 주세요.")
 elif st.session_state.step == "setup":
-    st.subheader(f"📢 {sub_category} 안내")
-    if "이해" in sub_category:
-        st.info("글을 읽으면서 괄호 안의 세 단어 중 알맞은 단어를 고르세요. 제한 시간은 2분입니다.") [cite: 1232, 1239]
-    else:
-        st.info("최대한 빠르고 정확하게 수행합니다. 지우개는 사용하지 않습니다.")
+    st.subheader(f"📢 {sub_category} 학생 안내")
+    st.info("지우개는 사용하지 않습니다. 선생님 신호에 맞춰 최대한 정확하고 빠르게 수행하세요.") [cite: 77, 166, 325]
     if st.button("검사 시작", type="primary"):
         st.session_state.start_time = time.time(); st.session_state.step = "test"; st.rerun()
 
@@ -96,38 +93,46 @@ elif st.session_state.step == "test":
 
     q = questions[st.session_state.current_q]
     
-    # 단어 선택 검사(중등) UI 
+    # UI: 중등 읽기 이해(단어 선택)와 일반 문항 구분 [cite: 1268]
     if "이해" in sub_category:
         st.markdown(f"### {q['text']}")
         cols = st.columns(3)
-        for idx, opt in enumerate(q['options']):
-            if cols[idx].button(opt, use_container_width=True):
-                is_correct = "정답" if opt == q['answer'] else "오답"
-                st.session_state.results.append({"번호": st.session_state.current_q+1, "선택": opt, "정오": is_correct})
-                if opt == q['answer']: st.session_state.score += 1
+        for i, opt in enumerate(q['opts']):
+            if cols[i].button(opt, use_container_width=True):
+                is_correct = "정답" if opt == q['ans'] else "오답"
+                st.session_state.results.append({"번호": st.session_state.current_q+1, "문항": q['text'], "선택": opt, "정오": is_correct})
+                if is_correct == "정답": st.session_state.score += 1
                 st.session_state.current_q += 1; st.rerun()
     else:
-        st.markdown(f"<h1 style='text-align: center; font-size: 80px;'>{q}</h1>", unsafe_allow_html=True)
+        st.markdown(f"<h1 style='text-align: center; font-size: 100px;'>{q}</h1>", unsafe_allow_html=True)
+        with st.expander("📝 영상 기반 질적 기록 (반응 속도 및 발화)", expanded=True):
+            speed = st.radio("반응 속도", ["즉각적/빠름", "느림/주저함"], horizontal=True) #
+            actual = st.text_input("학생의 실제 발화 내용 (오독 시 기록)") #
+
         c1, c2 = st.columns(2)
         with c1:
             if st.button("⭕ 정답", use_container_width=True, type="primary"):
-                st.session_state.results.append({"번호": st.session_state.current_q+1, "문항": q, "정오": "정답"})
+                st.session_state.results.append({"번호": st.session_state.current_q+1, "문항": q, "정오": "정답", "속도": speed, "발화": actual})
                 st.session_state.score += 1; st.session_state.current_q += 1; st.rerun()
         with c2:
             if st.button("❌ 오답", use_container_width=True):
-                st.session_state.results.append({"번호": st.session_state.current_q+1, "문항": q, "정오": "오답"})
+                st.session_state.results.append({"번호": st.session_state.current_q+1, "문항": q, "정오": "오답", "속도": speed, "발화": actual})
                 st.session_state.current_q += 1; st.rerun()
 
 elif st.session_state.step == "result":
-    # 도달 기준 
-    threshold = 22 if "이해" in sub_category else 15
+    # 도달 기준 자동 판정 (PDF 근거) [cite: 808-811, 1065]
+    if "무의미" in sub_category:
+        threshold = {"초등 1학년": 17, "초등 2학년": 21, "초등 3학년": 19}.get(grade, 22)
+    elif "이해" in sub_category: threshold = 22
+    else: threshold = 18 if "초등 1학년" in grade or "초등 2학년" in grade else 24
+    
+    st.header("📊 진단 결과 보고서")
     status = "도달" if st.session_state.score >= threshold else "미도달"
-    st.header("📊 진단 결과")
-    st.metric("최종 점수", f"{st.session_state.score}점", f"판정: {status}")
+    st.metric(f"{sub_category} 최종 점수", f"{st.session_state.score}점", f"판정 결과: {status} (기준: {threshold}점)")
     
     df = pd.DataFrame(st.session_state.results)
     st.table(df)
     csv = df.to_csv(index=False).encode('utf-8-sig')
-    st.download_button("📥 엑셀 저장", csv, f"{name}_결과.csv")
+    st.download_button("📥 상세 문항 기록 엑셀 저장", csv, f"{name}_{sub_category}_결과.csv")
 
-st.markdown("<br><hr><center>© 인천광역시교육청 학습종합클리닉센터</center>", unsafe_allow_html=True)
+st.markdown("<br><hr><center>© 인천광역시교육청 학습종합클리닉센터 (초등교육과)</center>", unsafe_allow_html=True)
