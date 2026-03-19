@@ -57,21 +57,21 @@ KOR_STEPS = {
     "3단계: 받침 없는 글자": {"qs": ["가", "나", "다", "라", "마", "바", "사", "아", "자", "차", "카", "타", "파", "하"], "page": "국어 PDF 한글해득 학생용"},
     "4-1단계: 단어(의미)": {"qs": ["아파", "거미", "효자", "라디오", "배나무"], "page": "국어 PDF 한글해득 학생용"},
     "4-2단계: 단어(무의미)": {"qs": ["프소", "가야", "유하", "묘시", "녀타"], "page": "국어 PDF 한글해득 학생용"},
-    "5단계: 복잡한 모음": {"qs": ["ㅘ", "ㅝ", "ㅚ", "ㅟ", "ㅢ", "ㅒ", "ㅖ", "ㅙ", "ㅞ", "ㅛ"], "page": "국어 PDF 한글해득 학생용"},
+    "5단계: 복잡 모음": {"qs": ["ㅘ", "ㅝ", "ㅚ", "ㅟ", "ㅢ", "ㅒ", "ㅖ", "ㅙ", "ㅞ", "ㅛ"], "page": "국어 PDF 한글해득 학생용"},
     "6단계: 대표 받침": {"qs": ["안", "암", "알", "압", "앗", "악", "앙"], "page": "국어 PDF 한글해득 학생용"},
-    "7단계: 복잡한 받침": {"qs": ["밖", "있", "읽", "앉", "삶", "넓", "값"], "page": "국어 PDF 한글해득 학생용"},
+    "7단계: 복잡 받침": {"qs": ["밖", "있", "읽", "앉", "삶", "넓", "값"], "page": "국어 PDF 한글해득 학생용"},
     "8단계: 받침단어(의미)": {"qs": ["선생님", "학교", "친구", "공부", "사랑"], "page": "국어 PDF 한글해득 학생용"},
-    "9단계: 받침단어(무의미)": {"qs": ["달팽미", "발차국", "준비물", "운동정", "우리너라"], "page": "국어 PDF 한글해득 학생용"},
+    "9단계: 받침단어(무)": {"qs": ["달팽미", "발차국", "준비물", "운동정", "우리너라"], "page": "국어 PDF 한글해득 학생용"},
     "10단계: 듣고 쓰기": {"qs": ["나무", "우유", "아이", "소", "어머니"], "page": "국어 PDF 한글해득 학생용"}
 }
 
-# [무의미 단어 유창성 전수 반영] [cite: 838-872]
+# [무의미 단어 유창성 전수 반영]
 NONSENSE_DB = {
     "무의미 단어 (1~2학년)": {"qs": ["포모", "나버", "계난", "책성", "연팔", "펭권", "코끼러", "피마노", "교과사", "강어지", "다람쥐", "놀미터", "동화챈", "일기창", "경철서", "달팽미", "발차국", "준비물", "운동정", "우리너라", "해바리기", "할아비지", "따라좁기", "동그라무", "바디표범", "딱따구리", "체육대화", "초등학고", "확실히게", "숨바꼬질", "미끄럼톨", "국어서전", "징감다리", "특별화동", "동시남분", "실험관칠", "고속타미달", "이산화탐소", "현장체험학습", "한국전동문회"], "page": "국어 PDF 11쪽"},
     "무의미 단어 (3학년이상)": {"qs": ["포모", "나버", "계난", "책성", "연팔", "펭권", "코끼러", "피마노", "교과사", "강어지", "다람쥐", "놀미터", "동화챈", "일기창", "경철서", "달팽미", "발차국", "준비물", "운동정", "우리너라", "해바리기", "할아비지", "따라좁기", "동그라무", "바디표범", "딱따구리", "자연한경", "교통수던", "확실히게", "의사소동", "미끄럼톨", "국어서전", "징감다리", "특별화동", "동시남분", "실험관칠", "고속타미달", "이산화탐소", "지구온난회", "크리스머스", "수학익험책", "반달거슴곰", "흰수염고래", "대왕오장어", "현장채험학즙", "한국전통문회", "남방큰돌구래", "티러노사우르소"], "page": "국어 PDF 18쪽"}
 }
 
-# [설명문 및 중등 읽기이해 전수 반영] [cite: 942-958, 1156-1187, 1268-1308]
+# [설명문 및 중등 읽기이해 전수 반영]
 PASSAGES = {
     "초등 설명문(땀이 나는 이유)": {"text": "땀이 나는 이유(제목) 여러분, 땀을 흘려 본 경험이 있지요? 우리는 여러 가지 상황에서 땀을 흘립니다. 땀은 왜 나는 것일까요? 그 이유는 첫째, 우리 몸의 온도를 일정하게 유지하기 위해서입니다. 우리 몸의 온도가 평소보다 높아지게 되면 땀이 나와서 공기 중으로 날아가게 됩니다. 그러면 열도 함께 빠져나가 몸을 식혀줍니다. 둘째, 땀은 우리 몸의 독소와 노폐물을 몸 밖으로 내보내 줍니다. 땀을 흘려 몸에 나쁜 물질이 쌓이는 것을 막아주는 것이지요. 셋째, 땀은 피부를 보호해 줍니다. 땀을 흘리면 피부가 촉촉해지며, 땀이 외부의 여러 자극으로부터 피부를 건강하게 지켜줍니다. 넷째, 우리 몸은 긴장하거나 운동을 할 때 열이 오르게 됩니다. 이때에도 땀을 흘리게 되면 높아진 몸의 온도가 낮아지지요. 땀을 흘리면 긴장이 풀리고 스트레스 정도가 낮아지기도 한답니다. 이처럼 땀을 흘리는 것은 우리 몸에 꼭 필요한 과정이에요. 우리가 느끼지 못해도 땀은 항상 조금씩 나고 있어요. 땀을 많이 흘렸을 때는 몸을 깨끗하게 씻고 물을 충분히 마셔주어야 합니다. 적당한 양의 땀을 흘려 우리 몸을 건강하게 지키도록 합시다.".split(), "page": "국어 PDF 17쪽"},
     "중등 설명문(반려동물 직업)": {"text": "반려동물 관련 직업 세계(제목) 사람과 더불어 살아가기 위한 목적으로 기르는 동물을 반려동물이라고 합니다. 개, 고양이뿐만 아니라 토끼, 앵무새, 고슴도치도 반려동물입니다. 최근 반려동물에 관한 관심이 높아지고 있습니다. 그래서 관련된 직업도 주목받고 있습니다. 직업의 분야도 건강, 미용, 훈련, 안전 등의 분야로 다양해지고 있습니다. 먼저 반려동물의 건강과 미용을 위한 직업도 다양합니다. 수의사는 동물들의 의사이고, 동물보건사는 수의사의 진료를 보조하며 아픈 동물을 간호합니다. 미용과 관련해서는 반려동물 미용사, 패션디자이너도 있습니다. 미용사는 털 깎기, 털 묶기, 염색하기 등을 통해 동물의 장점이 드러나도록 합니다. 그리고 패션디자이너는 동물의 신체적 특징을 바탕으로 어울리는 옷과 소품을 만듭니다. 동물 훈련 및 안전과 관련된 직업에는 훈련 상담사, 동물보호 보안관이 있습니다. 훈련 상담사는 반려동물이 보이는 문제 행동의 원인을 파악합니다. 그리고 문제 행동을 교정할 수 있는 프로그램을 계획하고 시행합니다. 동물보호 보안관은 방치되거나 학대받는 동물을 구조하고 보호하는 일을 합니다. 그 밖에 동물의 연기 지도자이자 매니저인 동물 랭글러 그리고 반려동물을 모델로 사진을 찍는 반려동물 사진작가도 있습니다. 무엇보다 반려동물과 관련된 직업은 동물을 사랑하는 마음이 있어야 합니다. 이와 함께 그 분야에 전문적인 지식도 갖추어야 합니다. 그뿐만 아니라 동물과 소통할 수 있는 섬세함과 작은 변화도 지켜볼 줄 아는 인내심도 필요합니다. 여러분은 반려동물에 관해 좀 더 알아보고 싶은 직업이 생겼나요? 친구들과 여러분의 생각을 이야기해 보세요.".split(), "page": "국어 PDF 34쪽"}
@@ -97,7 +97,7 @@ COMPREHENSION_DB = {
     ], "page": "국어 PDF 38~39쪽"}
 }
 
-# 4. 사이드바 및 에러 없는 통합 엑셀 다운로드 로직
+# 4. 사이드바 및 통합 엑셀 다운로드
 with st.sidebar:
     st.header("📊 진단 정보 입력")
     name = st.text_input("학생명 (가명)")
@@ -112,10 +112,9 @@ with st.sidebar:
         with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
             for sheet, data in st.session_state.all_results.items():
                 if data:
-                    # 에러 방지: 시트명에서 특수기호 모두 치환
                     safe_sheet_name = get_safe_sheet_name(sheet)
                     pd.DataFrame(data).to_excel(writer, sheet_name=safe_sheet_name, index=False)
-        st.download_button("📥 모든 결과 통합 엑셀 저장", output.getvalue(), f"{name}_통합결과.xlsx")
+        st.download_button("📥 모든 결과 엑셀 저장", output.getvalue(), f"{name}_통합결과.xlsx")
 
 # 5. 메인 메뉴 로직
 if not name:
@@ -123,9 +122,9 @@ if not name:
 elif st.session_state.step == "setup":
     st.subheader(f"📍 {name} 학생 CBT 진단 센터")
     c1, c2 = st.columns(2)
-    if c1.button("📖 기초 국어 진단 (해득/유창성/이해)", use_container_width=True):
+    if c1.button("📖 기초 국어 진단 메뉴", use_container_width=True):
         st.session_state.update({'cat': "kor", 'step': "kor_menu"}); st.rerun()
-    if c2.button("🔢 기초 수학 진단 (8단계 자동타이머)", use_container_width=True):
+    if c2.button("🔢 기초 수학 진단 메뉴", use_container_width=True):
         st.session_state.update({'cat': "math", 'step': "math_list"}); st.rerun()
 
 # --- [수학 진단 메뉴] ---
@@ -136,7 +135,7 @@ elif st.session_state.step == "math_list":
         c_a.info(f"📍 **{item}** | 📄 지필평가: {data['page']} | ⏱️ {data['time']//60}분")
         if c_b.button("CBT 시작", key=item):
             st.session_state.update({'sub_target': item, 'step': "guide"})
-            st.session_state.all_results[item] = []; st.rerun()
+            st.rerun()
     if st.button("🏠 메인으로"): st.session_state.step = "setup"; st.rerun()
 
 # --- [국어 진단 메뉴] ---
@@ -147,35 +146,31 @@ elif st.session_state.step == "kor_menu":
     for idx, (level, data) in enumerate(KOR_STEPS.items()):
         if cols[idx%4].button(level.split(":")[0]):
             st.session_state.update({'sub_target': level, 'step': "guide"})
-            st.session_state.all_results[level] = []; st.rerun()
+            st.rerun()
     
     st.write("**2. 유창성 및 이해 검사**")
     c1, c2 = st.columns(2)
     if c1.button("무의미 단어 (1~2학년용)"):
-        st.session_state.update({'sub_target': "무의미 단어 (1~2학년)", 'step': "guide"})
-        st.session_state.all_results["무의미 단어 (1~2학년)"] = []; st.rerun()
+        st.session_state.update({'sub_target': "무의미 단어 (1~2학년)", 'step': "guide"}); st.rerun()
     if c2.button("무의미 단어 (3학년 이상)"):
-        st.session_state.update({'sub_target': "무의미 단어 (3학년이상)", 'step': "guide"})
-        st.session_state.all_results["무의미 단어 (3학년이상)"] = []; st.rerun()
+        st.session_state.update({'sub_target': "무의미 단어 (3학년이상)", 'step': "guide"}); st.rerun()
     
     passage_target = "중등 설명문(반려동물 직업)" if "중등" in grade else "초등 설명문(땀이 나는 이유)"
     if st.button(f"설명문 유창성 ({'중등' if '중등' in grade else '초등'})"):
-        st.session_state.update({'sub_target': passage_target, 'step': "guide"})
-        st.session_state.all_results[passage_target] = []; st.rerun()
+        st.session_state.update({'sub_target': passage_target, 'step': "guide"}); st.rerun()
 
     if "중등" in grade and st.button("📝 중등 읽기 이해 (단어 선택)"):
-        st.session_state.update({'sub_target': "중등 읽기 이해", 'step': "guide"})
-        st.session_state.all_results["중등 읽기 이해"] = []; st.rerun()
+        st.session_state.update({'sub_target': "중등 읽기 이해", 'step': "guide"}); st.rerun()
         
     if st.button("🏠 메인으로"): st.session_state.step = "setup"; st.rerun()
 
-# --- [가이드 화면 (지필 PDF 쪽수 안내 공통)] ---
+# --- [가이드 화면 (KeyError 핵심 해결 구역)] ---
 elif st.session_state.step == "guide":
     target = st.session_state.sub_target
     st.subheader(f"📝 {target} 진행 안내")
     
     if target in MATH_STEPS:
-        st.warning(f"⏱️ 제한 시간: {MATH_STEPS[target]['time']//60}분 | 📄 지필평가 병행 시: {MATH_STEPS[target]['page']}")
+        st.warning(f"⏱️ 제한 시간: {MATH_STEPS[target]['time']//60}분 | 📄 지필평가: {MATH_STEPS[target]['page']}")
         next_step = "test"
     elif target in KOR_STEPS:
         st.info(f"💡 모든 문항 정반응 시 통과 | 📄 지필평가: {KOR_STEPS[target]['page']}")
@@ -190,8 +185,10 @@ elif st.session_state.step == "guide":
         st.info(f"💡 문맥에 맞는 단어를 고르세요. | 📄 지필평가: {COMPREHENSION_DB[target]['page']}")
         next_step = "comp_test"
 
+    # ★ KeyError 원천 차단: 시작 버튼을 누를 때마다 딕셔너리를 초기화/생성합니다! ★
     if st.button("CBT 검사 시작하기"):
         st.session_state.update({'step': next_step, 'start_time': time.time(), 'current_q': 0, 'total_score': 0, 'total_read': 0, 'error_word': 0})
+        st.session_state.all_results[target] = [] 
         st.rerun()
 
 # --- [통합 테스트 실행 엔진 (수학, 한글해득, 무의미단어)] ---
@@ -207,7 +204,7 @@ elif st.session_state.step == "test":
         st.progress(rem / limit)
         st.markdown(f"<h2 style='text-align:center; color:red;'>남은 시간: {rem}초</h2>", unsafe_allow_html=True)
         if rem <= 0:
-            st.error("⏳ 시간 종료! 교사: \"그만!\" 연필을 내려놓으세요. [cite: 75-76]")
+            st.error("⏳ 시간 종료! 교사: \"그만!\" 연필을 내려놓으세요.")
             if st.button("결과 판정하기"): st.session_state.step = "res"; st.rerun()
             st.stop()
 
@@ -261,12 +258,11 @@ elif st.session_state.step == "comp_test":
             st.session_state.all_results[target].append({"문항": item['q'], "선택": opt})
             st.session_state.total_score += 1; st.session_state.current_q += 1; st.rerun()
 
-# --- [결과 판정 및 경로 제어판] --- [cite: 48-66]
+# --- [결과 판정 및 경로 제어판] ---
 elif st.session_state.step == "res":
     target = st.session_state.sub_target
     st.subheader(f"📊 [{target}] 판정 결과")
     
-    # 판정 로직 적용 [cite: 48-66]
     if target in MATH_STEPS:
         score, pass_mark = st.session_state.total_score, MATH_STEPS[target]['pass']
         if score >= pass_mark: st.success(f"✅ **도달** ({score}점 / 기준 {pass_mark}점). 다음 단계 진단 가능.")
